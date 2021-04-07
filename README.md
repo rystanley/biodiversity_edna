@@ -1,5 +1,3 @@
-# biodiversity_edna
-
 ## Advancing environmental DNA (eDNA) as a national standardized biomonitoring tool in three oceans, including to support Canada’s Marine Protected Areas (MPA) Program
 
 Canada has committed to the global effort to reduce biodiversity loss through ecosystem-based management, Oceans Protection Plan (OPP) initiatives in partnership with indigenous stakeholders, provision of science to support international commitments (e.g., Convention on Biological Diversity [1]; Conservation of Arctic Flora and Fauna (CAFF) biodiversity and Arctic Invasive Alien Species Strategy), and investments in MPAs and MPA networks. Since 2016, Canada has endeavored on an ambitious expansion of MPAs, moving from <1% (55,000 km2) in 2016 to 10% (~570,000 km_2) by 2020.
