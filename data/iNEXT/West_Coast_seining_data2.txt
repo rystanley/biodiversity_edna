@@ -1,0 +1,10 @@
+site	ArrowGoby	BayGoby	BayPipefish	BlackeyeGoby	BuffaloSculpin	Cabezon	Copper_QuillbackRockfish	CrescentGunnel	EnglishSole	GreatSculpin	HighCockscomb	KelpGreenling	KelpSurfperch	PacificHerring	PacificSandlance	PacificStaghornSculpin	PaddedSculpin	PenpointGunnel	PilePerch	PlainfinMidshipman	Rockfish_sp	RockweedGunnel	RosylipSculpin	SaddlebackGunnel	SharpnoseSculpin	ShinerPerch	SilverspottedSculpin	SmoothheadSculpin	Snailfish_sp	SnakePrickleback	SpeckledSanddab	StarryFlounder	Stickleback	StripedSeaperch	SurfSmelt	TidepoolSculpin	Tubesnout	WhitespottedGreenling
+BB	4	0	875	1	0	1	0	1	0	0	0	0	0	0	0	45	4	2	3	132	0	0	0	1	0	269	0	0	0	0	10	1	0	0	0	2	0	6
+MB	0	0	252	0	3	0	0	29	0	0	0	0	0	0	0	2	7	0	1	22	0	0	0	22	1	73	0	3	0	0	0	0	11	4	0	41	0	1
+MuB	0	0	0	0	5	0	1	311	0	3	39	0	0	298	7	4	0	11	0	0	0	45	157	127	0	2	6	0	6	0	0	3	2	0	196	68	0	0
+PB	0	6	54	1	0	0	0	40	0	0	0	0	0	0	0	5	2	1	0	32	0	0	0	22	0	173	0	3	0	2	0	0	148	0	0	41	0	0
+PL	0	0	3686	0	0	0	0	2	1	0	0	2	0	0	0	1	0	1	1	263	0	0	0	2	0	102	0	21	0	0	11	0	0	0	0	0	0	3
+SB	4	1	120	51	0	0	0	80	0	0	2	0	0	0	0	1	2	2	1	81	2	0	0	35	0	14	0	30	0	0	0	0	24	0	0	361	0	1
+SS3	0	0	84	0	4	0	0	16	0	0	0	0	6	0	0	1	14	2	0	0	0	0	0	22	4	28	0	1	0	0	0	0	0	0	0	4	3	0
+SS4	0	0	64	0	1	0	0	8	0	0	0	0	0	0	0	5	3	9	0	1	0	0	0	17	0	17	2	2	0	0	0	0	4	0	0	3	2	1
+WS	0	0	10	0	0	0	0	14	1	0	6	0	0	0	0	5	0	1	0	1	0	0	0	28	0	31	0	1	1	0	0	0	1	0	1	13	0	0

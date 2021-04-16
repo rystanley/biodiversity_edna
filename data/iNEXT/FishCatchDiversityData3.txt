@@ -1,0 +1,11 @@
+site	WhiteHake	WinterFlounder	Sandlance	AtlanticHerring	Cottidae	Threespine	Fourspine	Ninespine	Tomcod	Silverside	RockGunnel	NorthernPipefish	Cunner	NorthernPuffer	RoughScad	Caranx	MackerelScad	NorthernBarracuda	Alosa	Lumpfish	Mummichog	AmericanEel
+Wreck	6	6	6	45	6	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+Conrod	10	2	11	11765	2	22	0	0	32	1	1	0	0	0	1	0	0	0	0	0	0	0
+TaylorEast	4	4	1438	94	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+TaylorWest	1	2	1	225	4	15	0	0	13	0	0	9	33	2	0	3	0	3	0	0	0	0
+Moosehead	7	1	1875	533	2	1472	0	0	62	0	0	3	4	0	0	0	1	0	32	0	0	0
+FiftyAcre	1	0	2	1831	17	1117	0	3	20	3	2	0	8	0	0	0	0	0	0	0	0	0
+PointPleasant	1	0	0	0	25	814	0	0	3	0	0	0	0	0	0	0	0	0	0	1	0	0
+RoseBay	0	1	0	0	116	89	76	54	0	249	0	7	0	0	0	1	0	0	0	0	16	1
+Cable	1	14	1	0	4	95	26	4	12	321	0	2	2	0	0	0	0	0	0	0	0	0
+FranksGeorge	0	0	952	0	2	0	0	0	0	1	4	2	12	0	0	0	0	0	0	0	0	0
