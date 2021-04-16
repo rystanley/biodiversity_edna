@@ -7,3 +7,5 @@ Here, we propose to evaluate an indirect, synoptic, and cost-efficient eDNA meta
 
 
 ![ ](/inst/Figure3_lite2.jpg)
+
+eDNA project example
