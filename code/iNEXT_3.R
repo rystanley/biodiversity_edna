@@ -130,8 +130,8 @@
               geom_errorbar(data=assym_div,aes(x=type,y=Estimator,ymin=LCL,ymax=UCL),width=0.25)+
               facet_grid(region~Diversity)+
               theme_bw()+
-              labs(#y="Asymtotic diversity estimate ± 95% CI", #note if the code shows this plus minas as jibberish re-insert using alt+241
-                y="Asymtotic diversity estimate", 
+              labs(#y="Asymptotic diversity estimate ± 95% CI", #note if the code shows this plus minas as jibberish re-insert using alt+241
+                y="Asymptotic diversity estimate", 
                   x="")+
               theme(strip.background = element_rect(, colour = "black", fill = "white"),
                     strip.text.x = element_text(colour = "black",size=14), 
@@ -139,5 +139,5 @@
                     axis.text = element_text(colour = "black",size=12),
                     axis.title = element_text(colour = "black",size=12));p2
             
-            ggsave("output/AsymtoticDiversityEstimates.png",p2,width=12,height=9,units="in",dpi=600)
+            ggsave("output/AsymptoticDiversityEstimates.png",p2,width=12,height=9,units="in",dpi=600)
          
