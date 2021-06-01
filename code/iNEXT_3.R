@@ -22,7 +22,6 @@
     library(patchwork)
     library(dplyr)
 
-
 ## Richness analysis ----------
 
   #read in data
@@ -96,21 +95,49 @@
                      region=factor(region,levels=c("Pacific","Atlantic")))%>%
               arrange(region,type,x)%>%
               dplyr::select(region,type,method,x,y,y.lwr,y.upr,denominator)
-     
-      p1 <- ggplot()+
-        geom_ribbon(data=plotdata,aes(x=x,ymin=y.lwr,ymax=y.upr,fill=type),alpha=0.5)+
-        geom_line(data=plotdata,aes(x=x,y=y,col=type),lty=2,lwd=1.25)+
-        geom_line(data=filter(plotdata,method!="extrapolated"),aes(x=x,y=y,col=type),lwd=1.25)+
-        geom_point(data=filter(plotdata,method=="observed"),aes(x=x,y=y,col=type),size=4)+
-        theme_bw()+
-        facet_grid(region~denominator,scales="free_x")+
-        theme(strip.background = element_rect(, colour = "black", fill = "white"),
-              strip.text.x = element_text(colour = "black",size=14), 
-              strip.text.y = element_text(colour = "black",size=14),
-              axis.text = element_text(colour = "black",size=12),
-              axis.title = element_text(colour = "black",size=12),
-              legend.position="bottom")+
-        scale_y_continuous(expand=c(0,0.02))+
-        labs(x="",y="Species Richness",fill="",col="");p1
+            
+            #assemble data for the asymptotic diversity estimates
+            assym_div <- rbind(east.inc$AsyEst,west.inc$AsyEst)%>%
+              mutate(region=ifelse(grepl("east",Site),"Atlantic","Pacific"),
+                     type=gsub("east_","",Site),
+                     type=gsub("west_","",type),
+                     type=gsub("seining","Seining",type),
+                     type=factor(type,levels=c("Seining","12S","16S","eDNA")))%>%
+              dplyr::select(-Site)
+      
+            #Rarefaction plots
+            p1 <- ggplot()+
+              geom_ribbon(data=plotdata,aes(x=x,ymin=y.lwr,ymax=y.upr,fill=type),alpha=0.5)+
+              geom_line(data=plotdata,aes(x=x,y=y,col=type),lty=2,lwd=1.25)+
+              geom_line(data=filter(plotdata,method!="extrapolated"),aes(x=x,y=y,col=type),lwd=1.25)+
+              geom_point(data=filter(plotdata,method=="observed"),aes(x=x,y=y,col=type),size=4)+
+              theme_bw()+
+              facet_grid(region~denominator,scales="free_x")+
+              theme(strip.background = element_rect(, colour = "black", fill = "white"),
+                    strip.text.x = element_text(colour = "black",size=14), 
+                    strip.text.y = element_text(colour = "black",size=14),
+                    axis.text = element_text(colour = "black",size=12),
+                    axis.title = element_text(colour = "black",size=12),
+                    legend.position="bottom")+
+              scale_y_continuous(expand=c(0,0.02))+
+              labs(x="",y="Species Richness",fill="",col="");p1
 
-      ggsave("output/RichnessAnalysis.png",width=12,height=12,units="in",dpi=600)
+            ggsave("output/RichnessAnalysis.png",p1,width=12,height=12,units="in",dpi=600)
+      
+          #Diversity plots      
+            p2 <- ggplot()+
+              geom_point(data=assym_div,aes(x=type,y=Estimator),size=2)+
+              geom_errorbar(data=assym_div,aes(x=type,y=Estimator,ymin=LCL,ymax=UCL),width=0.25)+
+              facet_grid(region~Diversity)+
+              theme_bw()+
+              labs(#y="Asymtotic diversity estimate ± 95% CI", #note if the code shows this plus minas as jibberish re-insert using alt+241
+                y="Asymtotic diversity estimate", 
+                  x="")+
+              theme(strip.background = element_rect(, colour = "black", fill = "white"),
+                    strip.text.x = element_text(colour = "black",size=14), 
+                    strip.text.y = element_text(colour = "black",size=14),
+                    axis.text = element_text(colour = "black",size=12),
+                    axis.title = element_text(colour = "black",size=12));p2
+            
+            ggsave("output/AsymtoticDiversityEstimates.png",p2,width=12,height=9,units="in",dpi=600)
+         
