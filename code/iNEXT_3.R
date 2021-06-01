@@ -1,8 +1,8 @@
 #New code has been generated
 
 # the intuitive part of working with github and RStudio projects is that all users start in the same root directory. 
-# so there is no need to actually set a working directory becacuse the paths will work on whichever computer it is on provided the project
-# is initialized. In the first version of the code, for example you are writing plots to the data folder, wheras in the file structure those should really
+# so there is no need to actually set a working directory because the paths will work on whichever computer it is on provided the project
+# is initialized. In the first version of the code, for example you are writing plots to the data folder, whereas in the file structure those should really
 # go to the outputs so that raw data cannot be accidentally saved over. This is the 
 
 #setwd("~/Documents/GitHub/biodiversity_edna/data/iNEXT") 
@@ -130,7 +130,7 @@
               geom_errorbar(data=assym_div,aes(x=type,y=Estimator,ymin=LCL,ymax=UCL),width=0.25)+
               facet_grid(region~Diversity)+
               theme_bw()+
-              labs(#y="Asymptotic diversity estimate ± 95% CI", #note if the code shows this plus minas as jibberish re-insert using alt+241
+              labs(#y="Asymptotic diversity estimate ± 95% CI", #note if the code shows this plus minus as jibberish re-insert using alt+241
                 y="Asymptotic diversity estimate", 
                   x="")+
               theme(strip.background = element_rect(, colour = "black", fill = "white"),
