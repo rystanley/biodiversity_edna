@@ -17,6 +17,7 @@ CanProj <- "+proj=lcc +lat_1=49 +lat_2=77 +lat_0=63.390675 +lon_0=-91.8666666666
 
 #Source some handy spatial functions that I wrote for another analysis
 source("code/coord_bump.R")
+source("code/lcp_function.R")
 
 #download basemap if required. 
   basemap <- rbind(ne_states(country = "Canada",returnclass = "sf")%>%
