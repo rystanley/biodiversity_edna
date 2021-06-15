@@ -1,0 +1,82 @@
+#load libraries --------
+library(rnaturalearth)
+library(rnaturalearthhires)
+library(sf)
+library(tidyr)
+library(dplyr)
+library(raster)
+library(ggplot2)
+library(gdistance)
+library(nngeo)
+library(fasterize)
+library(reshape2)
+
+#Projections -----
+latlong <- "+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
+CanProj <- "+proj=lcc +lat_1=49 +lat_2=77 +lat_0=63.390675 +lon_0=-91.86666666666666 +x_0=6200000 +y_0=3000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+
+#Source some handy spatial functions that I wrote for another analysis
+source("code/coord_bump.R")
+
+#download basemap if required. 
+  basemap <- rbind(ne_states(country = "Canada",returnclass = "sf")%>%
+                     dplyr::select(name_en,geometry)%>%
+                     st_as_sf()%>%
+                     st_union()%>%
+                     st_transform(latlong)%>%
+                     st_as_sf()%>%
+                     mutate(country="Canada"),
+                   ne_states(country = "United States of America",returnclass = "sf")%>%
+                     dplyr::select(name_en,geometry)%>%
+                     st_as_sf()%>%
+                     st_union()%>%
+                     st_transform(latlong)%>%
+                     st_as_sf()%>%
+                     mutate(country="USA"))%>%st_union()%>%st_as_sf()%>%suppressMessages()
+
+#load data ---------
+  
+east <- read.csv("data/Site coordinates/EastCoast.csv")%>%
+        mutate(Longitude=Longitude*-1)%>%
+        st_as_sf(coords=c("Longitude","Latitude"),crs=latlong,remove=FALSE)%>%
+        rename(lat=Latitude,
+               long=Longitude,
+               site_id=Site_Code)%>%
+        mutate(coast="east")
+  
+west <- read.csv("data/Site coordinates/WestCoast.csv")%>%
+        st_as_sf(coords=c("CTD_Long","CTD_Lat"),crs=latlong,remove=FALSE)%>%
+        rename(lat=CTD_Lat,
+               long=CTD_Long,
+               site_id=Site.ID)%>%
+        mutate(coast="west")
+
+##Group coordinates into a single sf dataframe
+sample_sites <- rbind(east%>%dplyr::select(coast,site_id,geometry),
+                      west%>%dplyr::select(coast,site_id,geometry))%>%
+                mutate(long=st_coordinates(.)[,1],
+                       lat=st_coordinates(.)[,2])%>%
+                st_transform(latlong)
+
+##least cost path analysis using custom function--------------
+east_lcp <- lcp_function(sample_sites%>%filter(coast=="east"),basemap=basemap)
+west_lcp <- lcp_function(sample_sites%>%filter(coast=="west"),basemap=basemap)
+  
+#Great Circle Distance (as the bird flies) -------------------
+  east_gcd <- as.matrix(st_distance(east)/1000)%>%
+              matrix(., ncol=nrow(east), nrow=nrow(east))
+
+      rownames(east_gcd) <- east%>%data.frame()%>%pull(site_id) #adjust column/row names
+      colnames(east_gcd) <- east%>%data.frame()%>%pull(site_id) 
+
+    west_gcd <- as.matrix(st_distance(west)/1000)%>%
+        matrix(., ncol=nrow(west), nrow=nrow(west))
+      
+    rownames(west_gcd) <- west%>%data.frame()%>%pull(site_id) #adjust column names
+    colnames(west_gcd) <- west%>%data.frame()%>%pull(site_id) 
+
+
+
+
+
+
