@@ -77,7 +77,13 @@ west_lcp <- lcp_function(sample_sites%>%filter(coast=="west"),basemap=basemap)
     colnames(west_gcd) <- west%>%data.frame()%>%pull(site_id) 
 
 
-
+#Write the outputs ------------
+    write.csv(east_lcp,"output/east_lcp_distances.csv",row.names = TRUE)
+    write.csv(east_gcd,"output/east_gcd_distances.csv",row.names = TRUE)
+    
+    write.csv(west_lcp,"output/west_lcp_distances.csv",row.names = TRUE)
+    write.csv(west_gcd,"output/west_gcd_distances.csv",row.names = TRUE)
+    
 
 
 
