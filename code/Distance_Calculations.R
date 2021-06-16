@@ -77,10 +77,22 @@ library(reshape2)
     colnames(west_gcd) <- west%>%data.frame()%>%pull(site_id) 
     
 #model comparisons
-    plot(east_gcd[lower.tri(east_gcd)]~east_lcp[lower.tri(east_lcp)])
+    
+    plot_comparison_df <- rbind(data.frame(gcd=east_gcd[lower.tri(east_gcd)],lcd=east_lcp[lower.tri(east_lcp)],coast="East coast"),
+                                data.frame(gcd=west_gcd[lower.tri(west_gcd)],lcd=west_lcp[lower.tri(west_lcp)],coast="West coast"))
+    
+    ggplot(data=plot_comparison_df,aes(x=gcd,y=lcd))+
+      geom_point()+
+      geom_abline(slope=1,intercept=0,lty=2)+
+      geom_smooth(method="lm")+
+      facet_grid(~coast)+
+      labs(x="Great cirle Distance",y="Least-cost path")+
+      theme_bw()
+    
+    #East coast linear model
     lm(east_gcd[lower.tri(east_gcd)]~east_lcp[lower.tri(east_lcp)])%>%summary()
     
-    plot(west_gcd[lower.tri(west_gcd)]~west_lcp[lower.tri(west_lcp)]) #bigger difference on the west coast. 
+    #west coast linear model
     lm(west_gcd[lower.tri(west_gcd)]~west_lcp[lower.tri(west_lcp)])%>%summary()
 
 #Write the outputs ------------
