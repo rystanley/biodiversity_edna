@@ -75,6 +75,13 @@ library(reshape2)
       
     rownames(west_gcd) <- west%>%data.frame()%>%pull(site_id) #adjust column names
     colnames(west_gcd) <- west%>%data.frame()%>%pull(site_id) 
+    
+#model comparisons
+    plot(east_gcd[lower.tri(east_gcd)]~east_lcp[lower.tri(east_lcp)])
+    lm(east_gcd[lower.tri(east_gcd)]~east_lcp[lower.tri(east_lcp)])%>%summary()
+    
+    plot(west_gcd[lower.tri(west_gcd)]~west_lcp[lower.tri(west_lcp)]) #bigger difference on the west coast. 
+    lm(west_gcd[lower.tri(west_gcd)]~west_lcp[lower.tri(west_lcp)])%>%summary()
 
 #Write the outputs ------------
     write.csv(east_lcp,"output/east_lcp_distances.csv",row.names = TRUE)
