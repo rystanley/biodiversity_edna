@@ -121,7 +121,7 @@ lcp_function <- function (x,radius = 200,basemap,matrix_out = TRUE){
   samplesite_adjusted$ind <- 1:nrow(samplesite_adjusted)
   
   ## create the transition object
-  trans <- transition(r,transitionFunction = min,directions=8)%>%
+  trans <- transition(r,transitionFunction = min,directions=16)%>%
     geoCorrection(.,type="c",multpl = FALSE)
   
   ## Least-cost path analysis
@@ -140,6 +140,8 @@ lcp_function <- function (x,radius = 200,basemap,matrix_out = TRUE){
   for(i in samplesite_adjusted$site_id){
     output[output$start == i & output$dist!=0 | output$end == i & output$dist!=0,"dist"] <- output[output$start == i & output$dist!=0 | 
                                                                  output$end == i & output$dist!=0,"dist"] + samplesite_adjusted%>%filter(site_id == i)%>%pull(offset)
+    
+    
   }
   
   
@@ -156,9 +158,10 @@ lcp_function <- function (x,radius = 200,basemap,matrix_out = TRUE){
     
     #adjust for the bumps to water
     for(i in samplesite_adjusted$site_id){
-     output[rownames(output)==i,output[rownames(output)==i,]>0] <- output[rownames(output)==i,output[rownames(output)==i,]>0] + samplesite_adjusted%>%filter(site_id == i)%>%pull(offset)
+       output[rownames(output)==i,output[rownames(output)==i,]>0] <- output[rownames(output)==i,output[rownames(output)==i,]>0] + samplesite_adjusted%>%filter(site_id == i)%>%pull(offset) #add offset to rows
+       output[output[colnames(output)==i,]>0,colnames(output)==i] <- output[output[colnames(output)==i,]>0,colnames(output)==i] + samplesite_adjusted%>%filter(site_id == i)%>%pull(offset) #add offset to columns
      }
-    
+   
   }
   
   #end function and return output
