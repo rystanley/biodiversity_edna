@@ -1,4 +1,4 @@
-## Dissimilarity analysis (eDNA)
+## (Dis)Similarity analysis dataprep
 
 #load libraries ---
 library(dplyr)
@@ -8,13 +8,9 @@ library(tidyr)
 library(readxl)
 
 
-#read in the identification results
-coastal_df <- read.csv("data/SpeciesLists_Coastal.csv",stringsAsFactors = FALSE)%>%
-  filter(count>0)%>%
-  mutate(species_det = !grepl("_",scientific_name))%>% #flags if one species was id'ed or not
-  data.frame()
+### Data Prep ----------------
 
-##East coast data prep --------------
+#East coast data prep -----
 
   #read in the data with the official nomencalutre to be matched with the site level data
   
@@ -194,3 +190,5 @@ coastal_df <- read.csv("data/SpeciesLists_Coastal.csv",stringsAsFactors = FALSE)
       data.frame()%>%
       select(marker,index,family,genus,scientific_name,common_name,species_code,
              BB,MB,SS4,SS3,WS,MuB,SB,PB,PL)
+    
+    
