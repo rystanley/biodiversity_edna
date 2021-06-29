@@ -363,17 +363,24 @@ library(readxl)
              gather("marker","val",primer_12S,primer_16S,Seining),
            aes(x=great_circle,y=val,col=marker,group=marker))+
       geom_point()+
-      labs(x="Great Circle Distance",y="Community Dissimilarity")+
+      scale_color_discrete(name="Method",labels=c("12S eDNA","16S eDNA","Seining"))+
+      labs(x="Great Circle Distance (Km)",y="Community Dissimilarity")+
       facet_grid(coast~dissim)+
       theme_bw()+
+      #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+      theme(strip.background =element_rect(fill="white"))+
       stat_smooth(method="lm")
+      
     
-    ggplot(data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining),
+      ggplot(data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining),
            aes(x=least_cost_distance,y=val,col=marker,group=marker))+
       geom_point()+
-      labs(x="Least Cost Distance",y="Community Dissimilarity")+
+      scale_color_discrete(name="Method",labels=c("12S eDNA","16S eDNA","Seining"))+
+      labs(x="Least Cost Distance (Km)",y="Community Dissimilarity")+
       facet_grid(coast~dissim)+
       theme_bw()+
+      #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+      theme(strip.background =element_rect(fill="white"))+
       stat_smooth(method="lm")
     
     mod_lcp <- glm(great_circle~marker*coast,data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining)%>%filter(dissim=="Jaccard"))
