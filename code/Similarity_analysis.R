@@ -14,13 +14,13 @@ library(readxl)
 
 #East coast data prep -----
 
-  #read in the data with the official nomencalutre to be matched with the site level data
+  #read in the data with the official nomenclature to be matched with the site level data
   
-  east_siening_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="east_seining")%>% #from seines
+  east_seining_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="east_seining")%>% #from seines
     data.frame()%>%
     rename(count = Number.of.fish)
   
-  colnames(east_siening_nomenclature) <- gsub('\\.', '_',colnames(east_siening_nomenclature))%>%tolower()
+  colnames(east_seining_nomenclature) <- gsub('\\.', '_',colnames(east_seining_nomenclature))%>%tolower()
   
   east_edna_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="east_edna")%>% #from eDNA
     data.frame()
@@ -82,7 +82,7 @@ library(readxl)
                            CAB = Cable,
                            FRK = FranksGeorge,
                            PLS = PointPleasant)%>%
-                    left_join(.,east_siening_nomenclature)%>%
+                    left_join(.,east_seining_nomenclature)%>%
                     rename(spec = site)%>% # better naming
                     dplyr::select(names(east_16S))%>%
                     data.frame() 
@@ -118,11 +118,11 @@ library(readxl)
                     
 
 #West coast data prep ---------
-    west_siening_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="west_seining")%>%
+    west_seining_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="west_seining")%>%
       data.frame()%>%
       rename(count = Number.of.fish)
     
-    colnames(west_siening_nomenclature) <- gsub('\\.', '_',colnames(west_siening_nomenclature))%>%tolower()
+    colnames(west_seining_nomenclature) <- gsub('\\.', '_',colnames(west_seining_nomenclature))%>%tolower()
     
     west_edna_nomenclature <- read_excel("data/Biodiveristy_Coastal.xlsx",sheet="west_edna")%>%
       data.frame()
@@ -156,7 +156,7 @@ library(readxl)
       mutate(count = rowSums(.[,2:10]),
              marker="Seining")%>%
       suppressMessages()%>%
-      left_join(.,west_siening_nomenclature)%>%
+      left_join(.,west_seining_nomenclature)%>%
       mutate(common_name = gsub("/"," ",common_name))%>%
       rename(spec = site)%>% # better naming
       dplyr::select(names(west_16S))%>%
@@ -363,6 +363,7 @@ library(readxl)
              gather("marker","val",primer_12S,primer_16S,Seining),
            aes(x=great_circle,y=val,col=marker,group=marker))+
       geom_point()+
+      labs(x="Great Circle Distance",y="Community Dissimilarity")+
       facet_grid(coast~dissim)+
       theme_bw()+
       stat_smooth(method="lm")
@@ -370,6 +371,7 @@ library(readxl)
     ggplot(data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining),
            aes(x=least_cost_distance,y=val,col=marker,group=marker))+
       geom_point()+
+      labs(x="Least Cost Distance",y="Community Dissimilarity")+
       facet_grid(coast~dissim)+
       theme_bw()+
       stat_smooth(method="lm")
