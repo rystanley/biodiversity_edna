@@ -1,11 +1,13 @@
 ## (Dis)Similarity analysis dataprep
 
 #load libraries ---
+library(tidyverse)
 library(dplyr)
 library(sf)
 library(vegan)
 library(tidyr)
 library(readxl)
+
 
 
 ### Data Prep ----------------
@@ -61,7 +63,8 @@ library(readxl)
                 suppressMessages()%>%
                 left_join(.,east_edna_nomenclature%>%select(-e_12s_reads)%>%rename(count=e_16s_reads)%>%filter(!is.na(count)))%>%
                 data.frame()%>%
-                rename(spec = site) # better naming
+                rename(spec = site)%>% # better naming
+                mutate(scientific_name = ifelse(scientific_name == "Ammodytes hexapterus | Ammodytes personatus",genus,scientific_name)) #two groups have the same grouping but a different genus name (AM2 and AM3)
     
    #Seining has 4 species that have the count of 1
     east_seining_step1 <- read_excel("data/iNEXT/data.iNEXT.xlsx",sheet="seining_east")%>% 
@@ -162,7 +165,7 @@ library(readxl)
     #summed counts for various species cause some issues. 
     repeat_sp <- west_seining_step1%>%group_by(spec)%>%summarise(count=n())%>%filter(count>1)%>%pull(spec)
     
-    #create a logical index to remove rows that were merged twice due tot he joint count of 419
+    #create a logical index to remove rows that were merged twice due to the joint count of 419
     logical_index=rep(TRUE,nrow(west_seining_step1))  
     
     for(i in 1:nrow(west_seining_step1)){
@@ -179,7 +182,8 @@ library(readxl)
     }
     
     #apply index to get rid of issue      
-    west_seining <- west_seining_step1[logical_index,]
+    west_seining <- west_seining_step1[logical_index,]%>%
+                    mutate(scientific_name=ifelse(spec =="Copper_QuillbackRockfish","Sebastes caurinus",scientific_name))#for some reason the full name of copper quillback rockfish was not spelled out. 
     
     #clean up the variables that can be used again later.   
     rm(west_seining_step1,temp,i,logical_index,repeat_sp)
@@ -189,6 +193,189 @@ library(readxl)
       mutate(coast="west")%>%
       data.frame()%>%
       select(marker,index,family,genus,scientific_name,common_name,species_code,
-             BB,MB,SS4,SS3,WS,MuB,SB,PB,PL)
+             PB,SS3,SS4,MB,SB,BB,PL,WS,MuB) # order of stations taken from the distance calculations. 
     
+### Similarity analysis -----------------
+    
+   #read in the distances calculations
+    west_gc <- read.csv("output/west_gcd_distances.csv")
+    west_siteorder <- west_gc$X## this will be used to better line up the comparisons 
+    rownames(west_gc) <- west_gc$X
+    west_gc <- west_gc%>%dplyr::select(-X)
+    
+    west_lcd <- read.csv("output/west_lcp_distances.csv")
+    rownames(west_lcd) <- west_lcd$X
+    west_lcd <- west_lcd%>%dplyr::select(-X)
+    
+    east_gc <- read.csv("output/east_gcd_distances.csv")
+    east_siteorder <- east_gc$X
+    rownames(east_gc) <- east_gc$X
+    east_gc <- east_gc%>%dplyr::select(-X)
+    
+    east_lcd <- read.csv("output/east_lcp_distances.csv")
+    rownames(east_lcd) <- east_lcd $X
+    east_lcd  <- east_lcd %>%dplyr::select(-X)
+    
+    
+    #function to create the sample by species dataframes required to do the analysis
+    simmilarity_format <- function(x,siteorder,PA=FALSE){
+      
+      x <- x%>%
+        dplyr::select(c("scientific_name",siteorder))%>%
+        mutate(scientific_name = gsub(" ","_",scientific_name))%>%
+        gather("site","val",-scientific_name)%>%
+        pivot_wider(names_from = scientific_name,values_from = val)%>%
+        data.frame()
+      
+      rownames(x) <- x$site
+      
+      x <- x%>%dplyr::select(-site)
+      
+      #convert to binary (presence/absence)
+      if(PA){x[x>0] <- 1} 
+      
+      return(x)
+    }
+  
+  ## West Coast analysis
+    
+    #Jaccard 
+    west_12S_sim_jaccard <- filter(west_samples,marker=="12S")%>%
+                    simmilarity_format(.,siteorder = west_siteorder,PA=TRUE)%>%
+                    vegdist(.,method="jaccard")
+    
+    west_16S_sim_jaccard <- filter(west_samples,marker=="16S")%>%
+                    simmilarity_format(.,siteorder = west_siteorder,PA=TRUE)%>%
+                    vegdist(.,method="jaccard")
+    
+    west_seining_sim_jaccard <- filter(west_samples,marker=="Seining")%>%
+                        simmilarity_format(.,siteorder = west_siteorder,PA=TRUE)%>%
+                        vegdist(.,method="jaccard")
+    
+    #Bray-Curtis
+    west_12S_sim_bray <- filter(west_samples,marker=="12S")%>%
+      simmilarity_format(.,siteorder = west_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    west_16S_sim_bray <- filter(west_samples,marker=="16S")%>%
+      simmilarity_format(.,siteorder = west_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    west_seining_sim_bray <- filter(west_samples,marker=="Seining")%>%
+      simmilarity_format(.,siteorder = west_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    
+ ## East Coast analysis
+    
+    #Jaccard
+    east_12S_sim_jaccard <- filter(east_samples,marker=="12S")%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=TRUE)%>%
+      vegdist(.,method="jaccard")
+    
+    east_16S_sim_jaccard <- filter(east_samples,marker=="16S")%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=TRUE)%>%
+      vegdist(.,method="jaccard")
+    
+    east_seining_sim_jaccard <- filter(east_samples,marker=="Seining")%>%
+      mutate(scientific_name = ifelse(is.na(scientific_name),paste(family,genus,sep=""),scientific_name), #some aren't to the species level but they are the only ones wihtin that family/genus so we can count as an ~OTU
+             scientific_name = gsub("daeNA","dae",scientific_name))%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=TRUE)%>%
+      vegdist(.,method="jaccard")
+    
+    #Bray-Curtis
+    east_12S_sim_bray <- filter(east_samples,marker=="12S")%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    east_16S_sim_bray <- filter(east_samples,marker=="16S")%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    east_seining_sim_bray <- filter(east_samples,marker=="Seining")%>%
+      mutate(scientific_name = ifelse(is.na(scientific_name),paste(family,genus,sep=""),scientific_name), #some aren't to the species level but they are the only ones wihtin that family/genus so we can count as an ~OTU
+             scientific_name = gsub("daeNA","dae",scientific_name))%>%
+      simmilarity_format(.,siteorder = east_siteorder,PA=FALSE)%>%
+      decostand(.,method="hellinger")%>%
+      vegdist(.,method="bray")
+    
+    
+    #Stitch it together
+    west_site_combo<- t(combn(colnames(as.matrix(west_seining_sim_jaccard)), 2))
+    east_site_combo<- t(combn(colnames(as.matrix(east_seining_sim_jaccard)), 2))
+    
+    west_sim <- rbind(west_site_combo%>%
+                   data.frame()%>%
+                   rename(start=1,end=2)%>%
+                   mutate(primer_12S = as.matrix(west_12S_sim_jaccard)[west_site_combo],
+                          primer_16S = as.matrix(west_16S_sim_jaccard)[west_site_combo],
+                          Seining = as.matrix(west_seining_sim_jaccard)[west_site_combo],
+                          great_circle = as.matrix(west_gc)[west_site_combo],
+                          least_cost_distance = as.matrix(west_lcd)[west_site_combo],
+                          coast="Pacific",
+                          dissim = "Jaccard"),
+                   west_site_combo%>%
+                     data.frame()%>%
+                     rename(start=1,end=2)%>%
+                     mutate(primer_12S = as.matrix(west_12S_sim_bray)[west_site_combo],
+                            primer_16S = as.matrix(west_16S_sim_bray)[west_site_combo],
+                            Seining = as.matrix(west_seining_sim_bray)[west_site_combo],
+                            great_circle = as.matrix(west_gc)[west_site_combo],
+                            least_cost_distance = as.matrix(west_lcd)[west_site_combo],
+                            coast="Pacific",
+                            dissim = "Bray-Curtis"))
+    
+    east_sim <- rbind(east_site_combo%>%
+                        data.frame()%>%
+                        rename(start=1,end=2)%>%
+                        mutate(primer_12S = as.matrix(east_12S_sim_jaccard)[east_site_combo],
+                               primer_16S = as.matrix(east_16S_sim_jaccard)[east_site_combo],
+                               Seining = as.matrix(east_seining_sim_jaccard)[east_site_combo],
+                               great_circle = as.matrix(east_gc)[east_site_combo],
+                               least_cost_distance = as.matrix(east_lcd)[east_site_combo],
+                               coast="Atlantic",
+                               dissim = "Jaccard"),
+                      east_site_combo%>%
+                        data.frame()%>%
+                        rename(start=1,end=2)%>%
+                        mutate(primer_12S = as.matrix(east_12S_sim_bray)[east_site_combo],
+                               primer_16S = as.matrix(east_16S_sim_bray)[east_site_combo],
+                               Seining = as.matrix(east_seining_sim_bray)[east_site_combo],
+                               great_circle = as.matrix(east_gc)[east_site_combo],
+                               least_cost_distance = as.matrix(east_lcd)[east_site_combo],
+                               coast="Atlantic",
+                               dissim = "Bray-Curtis"))
+    
+    #one unified dataframe
+    simmilarity_df <- rbind(west_sim,east_sim)
+    
+    
+### Plot the data -----------
+    
+    range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+    
+    ggplot(data=simmilarity_df%>%
+             gather("marker","val",primer_12S,primer_16S,Seining),
+           aes(x=great_circle,y=val,col=marker,group=marker))+
+      geom_point()+
+      facet_grid(coast~dissim)+
+      theme_bw()+
+      stat_smooth(method="lm")
+    
+    ggplot(data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining),
+           aes(x=least_cost_distance,y=val,col=marker,group=marker))+
+      geom_point()+
+      facet_grid(coast~dissim)+
+      theme_bw()+
+      stat_smooth(method="lm")
+    
+    mod_lcp <- glm(great_circle~marker*coast,data=simmilarity_df%>%gather("marker","val",primer_12S,primer_16S,Seining)%>%filter(dissim=="Jaccard"))
+    
+    summary(mod_lcp)
+    summary(mod_lcp)$coefficient
     
