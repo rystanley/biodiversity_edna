@@ -68,7 +68,7 @@ lcp_function <- function (x,radius = 200,basemap,matrix_out = TRUE){
   buffer_pts <- st_buffer(pts_center%>%st_transform(aeqd),dist=units::set_units(max_dist,"km"))%>%st_bbox()%>%st_as_sfc()%>%st_sf()
   
   #create raster at 5 km scale that can be used to develop the transition object
-  r=suppressWarnings(raster(extent(buffer_pts),res=1*1000,crs=aeqd)%>%projectRaster(.,crs=latlong),)
+  r=suppressWarnings(raster(raster::extent(buffer_pts),res=1*1000,crs=aeqd)%>%projectRaster(.,crs=latlong))
   
   coast <- suppressWarnings(basemap%>%
                             st_transform(aeqd)%>%
