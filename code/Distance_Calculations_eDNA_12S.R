@@ -92,7 +92,7 @@ library(rgeos)
       geom_abline(slope=1,intercept=0,lty=2)+
       geom_smooth(method="lm")+
       facet_grid(~coast)+
-      labs(x="Great cirle Distance",y="Least-cost path")+
+      labs(x="Great circle Distance",y="Least-cost path")+
       theme_bw()
     
     #East coast linear model
