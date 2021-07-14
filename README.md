@@ -1,11 +1,26 @@
-## Advancing environmental DNA (eDNA) as a national standardized biomonitoring tool in three oceans, including to support Canada’s Marine Protected Areas (MPA) Program
-
-Canada has committed to the global effort to reduce biodiversity loss through ecosystem-based management, Oceans Protection Plan (OPP) initiatives in partnership with indigenous stakeholders, provision of science to support international commitments (e.g., Convention on Biological Diversity [1]; Conservation of Arctic Flora and Fauna (CAFF) biodiversity and Arctic Invasive Alien Species Strategy), and investments in MPAs and MPA networks. Since 2016, Canada has endeavored on an ambitious expansion of MPAs, moving from <1% (55,000 km<sup>2</sup>) in 2016 to 10% (~570,000 km<sup>2</sup>) by 2020.
-Addressing these commitments, including measuring MPA network effectiveness, will require intensive ocean monitoring at unprecedented scales. Traditional marine survey methods rely on direct sampling and are often spatially restricted, taxon-specific, costly, difficult to calibrate, and in some cases destructive; thus are limited in their ability to capture large spatial and temporal complexity in marine systems. These limitations, and DFO’s mandate to monitor the expanding Canadian MPA network, as well as other biodiversity conservation initiatives, necessitate innovative approaches to measuring marine diversity.
-
-Here, we propose to evaluate an indirect, synoptic, and cost-efficient eDNA metabarcoding approach as a potential tool for marine biodiversity monitoring, with specific applications to the Canadian MPA network and other initiatives (e.g., OPP). We will develop a nationally-standardized eDNA metabarcoding protocol that will be tested in three of Canada’s ocean systems. We will examine spatial and temporal dynamics of diversity revealed through eDNA in water samples and will directly compare results to those obtained by traditional survey methods.
+## Comparison of fish biodiversity assessments in temperate eelgrass beds using beach seines and environmental DNA metabarcoding
 
 
-![ ](/inst/Figure3_lite2.jpg)
 
-eDNA project example
+As a recipient of both land- and sea-based inputs, coastal ecosystems are areas of both high productivity and high human impact. Biodiversity within these ecosystems is impacted by a multitude of often synergistic stressors. Marine Protected Areas (MPAs) have been adopted globally as a tool to combat biodiversity loss and restore marine ecosystems. Central to the application of MPAs is the ability to monitor changes in biodiversity in a synoptic and preferably non-invasive manner. Environmental DNA (eDNA) methods offer relatively new approaches for measuring aquatic biodiversity that have important advantages over traditional marine survey methods. We test the application of eDNA metabarcoding for characterizing fish diversity in the coastal zone focusing on eelgrass beds, which are known for high biodiversity and are therefore of significant conservation value. We sampled 19 coastal sites in Atlantic and Pacific Canada; at each site, beach seines were used to survey fish in eelgrass beds and water samples were collected contemporaneously for eDNA metabarcoding to characterize fish biodiversity using two genetic markers (12S rRNA and 16S rRNA). Across all sample locations, beach seining caught 32,672 individuals from across 59 fish taxa, while eDNA detected 129 fish taxa. There were only three species caught by seining and not detected by eDNA, and for these species only one or two individuals were nettedcaught. eDNA clearly captured site-level variation and detected higher fish species richness at local and regional levels when compared to seining. We found eDNA abundance had a positive association with fish capture abundance. Collectively these results highlight how eDNA metabarcoding could offer a non-invasive and efficient approach for monitoring fish biodiversity in coastal eelgrass beds and could thus become a valuable tool to support MPA planning and coastal monitoring.
+
+__Xiaoping He<sup>1</sup>, Ryan R.E. Stanley<sup>2</sup>, Emily M. Rubidge<sup>3</sup>, Nicholas W. Jeffery<sup>2</sup>, Lorraine C. Hamilton<sup>2</sup>, Kristen M. Westfall<sup>1</sup>, Scott R. Gilmore<sup>1</sup>, Louise-Marie D. Roux<sup>1</sup>, Katie S.P. Gale<sup>3</sup>, Susan G. Heaslip<sup>2</sup>, Royce Steeves<sup>4</sup>, Cathryn L. Abbott<sup>1</sup>*__
+
+_*Corresponding author_
+
+1. Pacific Biological Station, Fisheries and Oceans Canada, 3190 Hammond Bay Rd, Nanaimo, BC V9T 6N7, Canada
+2. Bedford Institute of Oceanography, Fisheries and Oceans Canada, 1 Challenger Drive, Dartmouth, NS, B2Y 4A2, Canada
+3. Institute of Ocean Sciences, Fisheries and Oceans Canada, 9860 W Saanich Rd, Sidney, BC V8L 5T5, Canada
+4. Gulf Fisheries Centre, Fisheries and Oceans Canada, 343 Université Avenue, Moncton, NB, E1C 9B6, Canada
+
+
+
+![ ](/inst/Figure1.jpg)
+
+__Figure 1__ Map of the 19 coastal eelgrass beds sampled in the Pacific (a) and Atlantic (b) regions of Canada. 
+
+
+
+![__](/inst/Figure2.jpg)
+
+__Figure 2__ Venn diagrams compared the fish taxa detected by eDNA and seining at family and species levels. For the lower panel, only taxa identified to the species level were considered.  
