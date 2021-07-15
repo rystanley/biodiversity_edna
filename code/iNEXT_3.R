@@ -92,7 +92,7 @@
                      type=gsub("seining","Seining",type),
                      type=factor(type,levels=c("Seining","12S","16S","eDNA")),
                      denominator = ifelse(plottype==1,"Number of sampling sites","Sample coverage"),
-                     region=factor(region,levels=c("Pacific","Atlantic")))%>%
+                     region=factor(region,levels=c("Atlantic","Pacific")))%>%
               arrange(region,type,x)%>%
               dplyr::select(region,type,method,x,y,y.lwr,y.upr,denominator)
             
