@@ -1,5 +1,8 @@
 ## This code generates Figure 3
 
+# Species accumulationcurvesforseining, 12S, 16S, and two markers combined eDNAdatausing interpolation (solid line) and extrapolation 
+# (dashed line) methodologies. Data were formatted tothe incidence-frequency datatypeand the curves were generated using the iNEXTR package.
+
 #load libraries -------------
     #install.packages('devtools')
     #library(devtools)
