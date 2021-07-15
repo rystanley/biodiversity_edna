@@ -1,16 +1,12 @@
 ## This code generates Figure 3
 
-# Species accumulation curves for seining, 12S, 16S, and two markers combined eDNAdatausing interpolation (solid line) and extrapolation 
-# (dashed line) methodologies. Data were formatted tothe incidence-frequency datatypeand the curves were generated using the iNEXTR package.
+# Species accumulation curves for seining, 12S, 16S, and two markers combined eDNA data using interpolation (solid line) and extrapolation 
+# (dashed line) methodologies. Data were formatted to the incidence-frequency data type and the curves were generated using the iNEXTR package.
 
 #load libraries -------------
-    #install.packages('devtools')
-    #library(devtools)
-    #install_github('JohnsonHsieh/iNEXT')
-    
-    #devtools::install_github("vmikk/metagMisc")
-    #library(metagMisc)
-    
+
+    #devtools::install_github('JohnsonHsieh/iNEXT') #need to have the 'devtools' package installed in addition to the most recent version of RTools
+
     library(iNEXT)
     library(ggplot2)
     library(gridExtra)
