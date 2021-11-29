@@ -55,11 +55,14 @@
               dplyr::select(-Site)
       
             #Rarefaction plots
+            plotcols <- RColorBrewer::brewer.pal(4,"Dark2")
+            plotcols[3] <- "grey30" #increase the contrast of 16S
+            
             p1 <- ggplot()+
               geom_ribbon(data=plotdata,aes(x=x,ymin=y.lwr,ymax=y.upr,fill=type),alpha=0.5)+
               geom_line(data=plotdata,aes(x=x,y=y,col=type),lty=2,lwd=1.25)+
               geom_line(data=filter(plotdata,method!="extrapolated"),aes(x=x,y=y,col=type),lwd=1.25)+
-              geom_point(data=filter(plotdata,method=="observed"),aes(x=x,y=y,col=type),size=4)+
+              geom_point(data=filter(plotdata,method=="observed"),aes(x=x,y=y,fill=type),shape=21,size=4)+ #change in type to make it clearer.
               theme_bw()+
               facet_grid(region~denominator,scales="free_x")+
               theme(strip.background = element_rect(, colour = "black", fill = "white"),
@@ -69,6 +72,8 @@
                     axis.title = element_text(colour = "black",size=12),
                     legend.position="bottom")+
               scale_y_continuous(expand=c(0,0.02))+
+              scale_fill_manual(values=plotcols)+ # to increase contrast
+              scale_colour_manual(values=plotcols)+
               labs(x="",y="Species Richness",fill="",col="");p1
 
             ggsave("output/Figure3.png",p1,width=12,height=12,units="in",dpi=600)
