@@ -76,5 +76,52 @@
               scale_colour_manual(values=plotcols)+
               labs(x="",y="Species Richness",fill="",col="");p1
 
-            ggsave("output/Figure3.png",p1,width=12,height=12,units="in",dpi=600)
+            ggsave("output/Figure3.png",p1,width=9,height=9,units="in",dpi=600)
+            
+    
+  ##break the plot up so that an x axis label can be added even though it is redundant
+            p2 <- ggplot()+
+              geom_ribbon(data=plotdata%>%filter(denominator == "Number of sampling sites"),aes(x=x,ymin=y.lwr,ymax=y.upr,fill=type),alpha=0.5)+
+              geom_line(data=plotdata%>%filter(denominator == "Number of sampling sites"),aes(x=x,y=y,col=type),lty=2,lwd=1.25)+
+              geom_line(data=filter(plotdata,method!="extrapolated",denominator == "Number of sampling sites"),aes(x=x,y=y,col=type),lwd=1.25)+
+              geom_point(data=filter(plotdata,method=="observed",denominator == "Number of sampling sites"),aes(x=x,y=y,fill=type),shape=21,size=4)+ #change in type to make it clearer.
+              theme_bw()+
+              facet_grid(region~.,scales="free_x")+
+              theme(strip.background = element_blank(),
+                    strip.text = element_blank(),
+                    axis.text = element_text(colour = "black",size=12),
+                    axis.title = element_text(colour = "black",size=12),
+                    legend.position="bottom")+
+              scale_y_continuous(expand=c(0,0.02))+
+              scale_fill_manual(values=plotcols)+ # to increase contrast
+              scale_colour_manual(values=plotcols)+
+              labs(x="Number of sampling sites",y="Species Richness",fill="",col="")
       
+            p3 <- ggplot()+
+              geom_ribbon(data=plotdata%>%filter(denominator == "Sample coverage"),aes(x=x,ymin=y.lwr,ymax=y.upr,fill=type),alpha=0.5)+
+              geom_line(data=plotdata%>%filter(denominator == "Sample coverage"),aes(x=x,y=y,col=type),lty=2,lwd=1.25)+
+              geom_line(data=filter(plotdata,method!="extrapolated",denominator == "Sample coverage"),aes(x=x,y=y,col=type),lwd=1.25)+
+              geom_point(data=filter(plotdata,method=="observed",denominator == "Sample coverage"),aes(x=x,y=y,fill=type),shape=21,size=4)+ #change in type to make it clearer.
+              theme_bw()+
+              facet_grid(region~.,scales="free_x")+
+              theme(strip.background = element_rect(, colour = "black", fill = "white"),
+                    strip.text.x = element_text(colour = "black",size=14), 
+                    strip.text.y = element_text(colour = "black",size=14),
+                    axis.text.y = element_blank(),
+                    axis.text.x = element_text(colour = "black",size=12),
+                    axis.title.y = element_blank(),
+                    axis.title.x = element_text(colour = "black",size=12),
+                    plot.margin = unit(c(5.5, 5.5, 5.5, 0), "pt"),# have to adjust this to make it look like a facet wrap
+                    #axis.ticks.y = element_blank(), #if you don't want the ticks
+                    legend.position="bottom")+
+              scale_y_continuous(expand=c(0,0.02))+
+              scale_fill_manual(values=plotcols)+ # to increase contrast
+              scale_colour_manual(values=plotcols)+
+              labs(x="Sample coverage",y="Species Richness",fill="",col="")
+            
+            output <- p2 + p3 + plot_layout(guides = "collect") & theme(legend.position = "bottom")
+            
+            output #view the plot. 
+           
+            ggsave("output/Figure3_alt.png",output,width=9,height=9,units="in",dpi=600)
+            
