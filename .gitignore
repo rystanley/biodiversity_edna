@@ -4,3 +4,4 @@
 .Ruserdata
 *.png
 output/**.jpg
+data/OBIS/
