@@ -88,12 +88,20 @@ if(!file.exists("data/OBIS/Arctic_obis.RData")){ #unless you want to re-run thes
   arctic_obis <- occurrence(geometry=st_as_text(bb_arctic$x),
                           fields = fieldcodes)
   
+  if(!dir.exists("data/OBIS/")){dir.create("data/OBIS/")}
+  
+  save(arctic_obis,file="data/OBIS/Arctic_obis.RData") #note these are not tracked with github
+  
 }else(load("data/OBIS/Arctic_obis.RData"))
 
 if(!file.exists("data/OBIS/Atlantic_obis.RData")){
 
   atlantic_obis <- occurrence(geometry=st_as_text(bb_atlantic$x),
                               fields = fieldcodes)
+  
+  if(!dir.exists("data/OBIS/")){dir.create("data/OBIS/")}
+  
+  save(atlantic_obis,file="data/OBIS/Atlantic_obis.RData")
 
 }else(load("data/OBIS/Atlantic_obis.RData"))
 
@@ -102,12 +110,11 @@ if(!file.exists("data/OBIS/Pacific_obis.RData")){
   pacific_obis <- occurrence(geometry=st_as_text(bb_pacific$x),
                              fields = fieldcodes)
   
+  if(!dir.exists("data/OBIS/")){dir.create("data/OBIS/")}
+  
+  save(pacific_obis,file="data/OBIS/Pacific_obis.RData")
+  
 }else(load("data/OBIS/Pacific_obis.RData"))
-
-#save raw outputs
-if(!file.exists("data/OBIS/Arctic_obis.RData")){save(arctic_obis,file="data/OBIS/Arctic_obis.RData")}
-if(!file.exists("data/OBIS/Atlantic_obis.RData")){save(atlantic_obis,file="data/OBIS/Atlantic_obis.RData")}
-if(!file.exists("data/OBIS/Pacific_obis.RData")){save(pacific_obis,file="data/OBIS/Pacific_obis.RData")}
 
 
 #Clean OBIS data -------
